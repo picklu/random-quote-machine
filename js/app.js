@@ -1,29 +1,21 @@
-class RandomQuoteMachine extends React.Component {
-  constructor(props) {
-    super(props);
+const { useState } = React;
 
-    this.state = {
-      loading: true
-    };
+const RandomQuoteMachine = () => {
+  const [loading, setLoading] = useState(true);
 
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  handleClick(e) {
-    this.setState({ loading: !this.state.loading });
+  const handleClick = e => {
+    setLoading(false);
     e.target.innerText = 'Clicked!';
-  }
+  };
 
-  render() {
-    return (
-      <div>
-        <h1>Hello, World!</h1>
-        {this.state.loading && <p>Loading...</p>}
-        <button onClick={this.handleClick}>Click Me!</button>
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <h1>Hello, World!</h1>
+      {loading && <p>Loading...</p>}
+      <button onClick={handleClick}>Click Me!</button>
+    </div>
+  );
+};
 
 const mountingNode = document.getElementById('app');
 
