@@ -40,10 +40,32 @@ const theme = createMuiTheme({
 
 const useStyles = makeStyles(theme => ({
   root: {
+    backgroundColor: 'white',
+    width: '500px',
+    height: '300px',
+    marginTop: '200px',
+    position: 'relative',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  quoteContainer: {
+    width: '100%',
+    height: '70%',
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  quote: {
+    justifyContent: 'center',
+    alignItem: 'left'
+  },
+  author: {
+    justifyItem: 'center',
+    alignItem: 'right'
+  },
+  button: {
+    margin: '20px'
   }
 }));
 
@@ -63,6 +85,49 @@ const getRandomIndex = limit => {
 
 // React hooks
 const { useState, useEffect } = React;
+
+// Quote component
+const Quote = props => {
+  return (
+    <Box>
+      <Typography color='primary'>{props.quote.quote}</Typography>
+      <Typography color='primary'>{props.quote.author}</Typography>
+    </Box>
+  );
+};
+
+// Buttons component
+const Buttons = props => {
+  const classes = useStyles();
+  return (
+    <Box>
+      <Button
+        variant='contained'
+        color='primary'
+        className={classes.button}
+        onClick={props.handleShareFacebook}
+      >
+        Facebook
+      </Button>
+      <Button
+        variant='contained'
+        color='primary'
+        className={classes.button}
+        onClick={props.handleShareTwitter}
+      >
+        Twitter
+      </Button>
+      <Button
+        variant='contained'
+        color='primary'
+        className={classes.button}
+        onClick={props.handleRandomIndex}
+      >
+        New Quote
+      </Button>
+    </Box>
+  );
+};
 
 // Random quote machine
 const RandomQuoteMachine = () => {
@@ -102,35 +167,14 @@ const RandomQuoteMachine = () => {
 
   return (
     <Container className={classes.root}>
-      <Typography variant='h3' color='primary'>
-        Random Quote
-      </Typography>
-      <Box>
-        {loading && <CircularProgress />}
-        {error && <Typography color='error'>{error.message}</Typography>}
-        {!loading && !error && (
-          <Typography color='primary'>{quotes[index].quote}</Typography>
-        )}
-      </Box>
-      <Box>
-        <Button variant='contained' color='primary' onClick={handleRandomIndex}>
-          New Quote
-        </Button>
-        <Button
-          variant='contained'
-          color='primary'
-          onClick={handleShareFacebook}
-        >
-          Facebook
-        </Button>
-        <Button
-          variant='contained'
-          color='primary'
-          onClick={handleShareTwitter}
-        >
-          Facebook
-        </Button>
-      </Box>
+      {loading && <CircularProgress />}
+      {error && <Typography color='error'>{error.message}</Typography>}
+      {!loading && !error && <Quote quote={quotes[index]} />}
+      <Buttons
+        handleRandomIndex={handleRandomIndex}
+        handleShareFacebook={handleShareFacebook}
+        handleShareTwitter={handleShareTwitter}
+      />
     </Container>
   );
 };
