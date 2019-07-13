@@ -26,6 +26,9 @@ const theme = createMuiTheme({
     secondary: {
       main: '#19857b'
     },
+    tertiary: {
+      main: 'ff2255'
+    },
     error: {
       main: colors.red.A400
     },
@@ -100,17 +103,17 @@ const RandomQuoteMachine = () => {
   return (
     <div className={classes.root}>
       <Box>
-        <Typography variant='h3'>Random Quote</Typography>
+        <Typography variant='h3' color='primary'>
+          Random Quote
+        </Typography>
         {loading && <CircularProgress />}
-        {error && <Typography>{error.message}</Typography>}
-        {!loading && !error && <Typography>{quotes[index].quote}</Typography>}
+        {error && <Typography color='error'>{error.message}</Typography>}
+        {!loading && !error && (
+          <Typography color='primary'>{quotes[index].quote}</Typography>
+        )}
       </Box>
       <Box>
-        <Button
-          variant='contained'
-          color='secondary'
-          onClick={handleRandomIndex}
-        >
+        <Button variant='contained' color='primary' onClick={handleRandomIndex}>
           New Quote
         </Button>
       </Box>
@@ -124,7 +127,7 @@ const RandomQuoteMachine = () => {
         </Button>
         <Button
           variant='contained'
-          color='secondary'
+          color='primary'
           onClick={handleShareTwitter}
         >
           Facebook
