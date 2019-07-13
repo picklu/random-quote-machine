@@ -101,11 +101,11 @@ const RandomQuoteMachine = () => {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
+    <Container className={classes.root}>
+      <Typography variant='h3' color='primary'>
+        Random Quote
+      </Typography>
       <Box>
-        <Typography variant='h3' color='primary'>
-          Random Quote
-        </Typography>
         {loading && <CircularProgress />}
         {error && <Typography color='error'>{error.message}</Typography>}
         {!loading && !error && (
@@ -116,8 +116,6 @@ const RandomQuoteMachine = () => {
         <Button variant='contained' color='primary' onClick={handleRandomIndex}>
           New Quote
         </Button>
-      </Box>
-      <Box>
         <Button
           variant='contained'
           color='primary'
@@ -133,7 +131,7 @@ const RandomQuoteMachine = () => {
           Facebook
         </Button>
       </Box>
-    </div>
+    </Container>
   );
 };
 
