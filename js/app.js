@@ -12,6 +12,7 @@ const {
   makeStyles,
   createMuiTheme,
   Box,
+  Button,
   Icon,
   Link,
   CircularProgress
@@ -82,14 +83,53 @@ const RandomQuoteMachine = () => {
       });
   }, []);
 
+  const handleRandomIndex = () => {
+    setIndex(getRandomIndex(quotes.length));
+  };
+
+  const handleShareFacebook = () => {
+    console.log('Will share with facebook');
+  };
+
+  const handleShareTwitter = () => {
+    console.log('Will share with twitter');
+  };
+
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <Typography variant='h3'>Random Quote</Typography>
-      {loading && <CircularProgress />}
-      {error && <Typography>{error.message}</Typography>}
-      {!loading && !error && <Typography>{quotes[index].quote}</Typography>}
+      <Box>
+        <Typography variant='h3'>Random Quote</Typography>
+        {loading && <CircularProgress />}
+        {error && <Typography>{error.message}</Typography>}
+        {!loading && !error && <Typography>{quotes[index].quote}</Typography>}
+      </Box>
+      <Box>
+        <Button
+          variant='contained'
+          color='secondary'
+          onClick={handleRandomIndex}
+        >
+          New Quote
+        </Button>
+      </Box>
+      <Box>
+        <Button
+          variant='contained'
+          color='primary'
+          onClick={handleShareFacebook}
+        >
+          Facebook
+        </Button>
+        <Button
+          variant='contained'
+          color='secondary'
+          onClick={handleShareTwitter}
+        >
+          Facebook
+        </Button>
+      </Box>
     </div>
   );
 };
