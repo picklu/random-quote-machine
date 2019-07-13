@@ -1,4 +1,8 @@
-// Material-Ui styles
+/***************************************
+ *
+ * Material-Ui styles
+ *
+ * *************************************/
 const {
   colors,
   CssBaseline,
@@ -9,7 +13,8 @@ const {
   createMuiTheme,
   Box,
   Icon,
-  Link
+  Link,
+  CircularProgress
 } = MaterialUI;
 
 const theme = createMuiTheme({
@@ -38,35 +43,66 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-// React hoooks
-const { useState } = React;
+/***************************************
+ *
+ * Javascript
+ *
+ * *************************************/
 
+//  Quotes url pointing to github gist
+const QUOTES_URL =
+  'https://gist.githubusercontent.com/picklu/43c5637a18321ae0126959257b44df92/raw/666d08e1f585bceb1e8b2712e4bc5e20bd4cb7b6/quotes.json';
+
+const getRandomIndex = limit => {
+  return Math.floor(Math.random() * limit);
+};
+
+// React hooks
+const { useState, useEffect } = React;
+
+// Random quote machine
 const RandomQuoteMachine = () => {
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [index, setIndex] = useState(0);
+  const [quotes, setQuotes] = useState({});
 
-  const handleClick = e => {
-    setLoading(!loading);
-  };
+  useEffect(() => {
+    axios
+      .get(QUOTES_URL)
+      .then(response => {
+        const quotes = response.data.quotes;
+        setQuotes(quotes);
+        setIndex(getRandomIndex(quotes.length));
+        setLoading(false);
+      })
+      .catch(error => {
+        setError(error);
+        setLoading(false);
+      });
+  }, []);
 
   const classes = useStyles();
+
   return (
     <div className={classes.root}>
-      <h1>Hello, World!</h1>
-      {loading ? <p>Loading...</p> : <p>Loaded!!!</p>}
-      <button onClick={handleClick}>
-        {loading ? 'Click Me!' : 'Clicked!'}
-      </button>
+      <Typography variant='h3'>Random Quote</Typography>
+      {loading && <CircularProgress />}
+      {error && <Typography>{error.message}</Typography>}
+      {!loading && !error && <Typography>{quotes[index].quote}</Typography>}
     </div>
   );
 };
 
-const App = () => (
-  <MuiThemeProvider theme={theme}>
-    <CssBaseline />
-    <RandomQuoteMachine />
-  </MuiThemeProvider>
-);
+// Main app
+const App = () => {
+  return (
+    <MuiThemeProvider theme={theme}>
+      <CssBaseline />
+      <RandomQuoteMachine />
+    </MuiThemeProvider>
+  );
+};
 
-const mountingNode = document.getElementById('app');
-
-ReactDOM.render(<App />, mountingNode);
+// Mouting app to the DOM
+ReactDOM.render(<App />, document.getElementById('app'));
