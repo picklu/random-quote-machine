@@ -90,8 +90,12 @@ const { useState, useEffect } = React;
 const Quote = props => {
   return (
     <Box>
-      <Typography color='primary'>{props.quote.quote}</Typography>
-      <Typography color='primary'>{props.quote.author}</Typography>
+      <Typography id='text' color='primary'>
+        {props.quote.quote}
+      </Typography>
+      <Typography id='author' color='primary'>
+        {props.quote.author}
+      </Typography>
     </Box>
   );
 };
@@ -99,25 +103,20 @@ const Quote = props => {
 // Buttons component
 const Buttons = props => {
   const classes = useStyles();
+
   return (
     <Box>
-      <Button
-        variant='contained'
+      <Link
+        id='tweet-quote'
         color='primary'
+        target='_blank'
+        href={`https://twitter.com/intent/tweet?text=${props.quoteText}`}
         className={classes.button}
-        onClick={props.handleShareFacebook}
-      >
-        Facebook
-      </Button>
-      <Button
-        variant='contained'
-        color='primary'
-        className={classes.button}
-        onClick={props.handleShareTwitter}
       >
         Twitter
-      </Button>
+      </Link>
       <Button
+        id='new-quote'
         variant='contained'
         color='primary'
         className={classes.button}
@@ -155,26 +154,20 @@ const RandomQuoteMachine = () => {
     setIndex(getRandomIndex(quotes.length));
   };
 
-  const handleShareFacebook = () => {
-    console.log('Will share with facebook');
-  };
-
-  const handleShareTwitter = () => {
-    console.log('Will share with twitter');
-  };
-
   const classes = useStyles();
+  const quote = quotes[index];
 
   return (
-    <Container className={classes.root}>
+    <Container id='quote-box' className={classes.root}>
       {loading && <CircularProgress />}
       {error && <Typography color='error'>{error.message}</Typography>}
-      {!loading && !error && <Quote quote={quotes[index]} />}
-      <Buttons
-        handleRandomIndex={handleRandomIndex}
-        handleShareFacebook={handleShareFacebook}
-        handleShareTwitter={handleShareTwitter}
-      />
+      {!loading && !error && <Quote quote={quote} />}
+      {!loading && !error && (
+        <Buttons
+          quoteText={quote.quote}
+          handleRandomIndex={handleRandomIndex}
+        />
+      )}
     </Container>
   );
 };
