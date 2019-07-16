@@ -64,8 +64,15 @@ const useStyles = makeStyles(theme => ({
     justifyItem: 'center',
     alignItem: 'right'
   },
+  buttons: {
+    display: 'flex',
+    justifyContent: 'space-around'
+  },
   button: {
-    margin: '20px'
+    margin: '0'
+  },
+  icon: {
+    margin: '0'
   }
 }));
 
@@ -105,7 +112,7 @@ const Buttons = props => {
   const classes = useStyles();
 
   return (
-    <Box>
+    <Box className='buttons'>
       <Link
         id='tweet-quote'
         color='primary'
@@ -113,7 +120,7 @@ const Buttons = props => {
         href={`https://twitter.com/intent/tweet?text=${props.quoteText}`}
         className={classes.button}
       >
-        Twitter
+        <Icon className={`${classes.icon} fab fa-twitter`} />
       </Link>
       <Button
         id='new-quote'
