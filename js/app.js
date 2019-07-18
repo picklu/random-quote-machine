@@ -72,7 +72,9 @@ const useStyles = makeStyles(theme => ({
     margin: '0'
   },
   icon: {
-    margin: '0'
+    margin: '0',
+    padding: '0',
+    color: 'red'
   }
 }));
 
@@ -81,6 +83,11 @@ const useStyles = makeStyles(theme => ({
  * Javascript
  *
  * *************************************/
+
+//  Concatenation of classes
+const clsx = (...classes) => {
+  return Array.from(classes).join(' ');
+};
 
 //  Quotes url pointing to github gist
 const QUOTES_URL =
@@ -120,7 +127,7 @@ const Buttons = props => {
         href={`https://twitter.com/intent/tweet?text=${props.quoteText}`}
         className={classes.button}
       >
-        <Icon className={`${classes.icon} fab fa-twitter`} />
+        <Icon className={clsx(classes.icon, 'fab fa-twitter')} />
       </Link>
       <Button
         id='new-quote'
