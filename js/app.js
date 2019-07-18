@@ -33,7 +33,7 @@ const theme = createMuiTheme({
       main: colors.red.A400
     },
     background: {
-      default: colors.grey[100]
+      default: '#556cd6'
     }
   }
 });
@@ -41,40 +41,48 @@ const theme = createMuiTheme({
 const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: 'white',
-    width: '500px',
-    height: '300px',
-    marginTop: '200px',
-    position: 'relative',
+    borderRadius: '5px',
+    fontSize: '1.5rem',
+    height: '400px',
+    marginTop: '100px',
+    padding: '50px',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'space-between'
   },
   quoteContainer: {
+    fontSize: 'inherit',
+    flex: 3,
     width: '100%',
-    height: '70%',
+    height: '100%',
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    justifyContent: 'space-between'
   },
   quote: {
-    justifyContent: 'center',
-    alignItem: 'left'
+    fontSize: 'inherit',
+    textAlign: 'Justify'
   },
   author: {
-    justifyItem: 'center',
-    alignItem: 'right'
+    fontSize: 'inherit',
+    textAlign: 'right'
   },
-  buttons: {
+  buttonContainer: {
+    marginTop: '2rem',
+    flex: '1',
     display: 'flex',
-    justifyContent: 'space-around'
+    justifyContent: 'space-between',
+    alignContent: 'center'
   },
   button: {
-    margin: '0'
+    // marginTop: '1rem'
   },
-  icon: {
-    margin: '0',
-    padding: '0',
-    color: 'red'
+  buttonBtn: {
+    fontSize: 'inherit'
+  },
+  buttonIcon: {
+    fontSize: '2.2rem'
   }
 }));
 
@@ -102,13 +110,15 @@ const { useState, useEffect } = React;
 
 // Quote component
 const Quote = props => {
+  const classes = useStyles();
+
   return (
-    <Box>
-      <Typography id='text' color='primary'>
+    <Box className={classes.quoteContainer}>
+      <Typography id='text' color='primary' className={classes.quote}>
         {props.quote.quote}
       </Typography>
-      <Typography id='author' color='primary'>
-        {props.quote.author}
+      <Typography id='author' color='primary' className={classes.author}>
+        -- {props.quote.author}
       </Typography>
     </Box>
   );
@@ -119,25 +129,36 @@ const Buttons = props => {
   const classes = useStyles();
 
   return (
-    <Box className='buttons'>
-      <Link
-        id='tweet-quote'
-        color='primary'
-        target='_blank'
-        href={`https://twitter.com/intent/tweet?text=${props.quoteText}`}
-        className={classes.button}
-      >
-        <Icon className={clsx(classes.icon, 'fab fa-twitter')} />
-      </Link>
-      <Button
-        id='new-quote'
-        variant='contained'
-        color='primary'
-        className={classes.button}
-        onClick={props.handleRandomIndex}
-      >
-        New Quote
-      </Button>
+    <Box
+      width='100%'
+      display='flex'
+      flexDirection='row'
+      flexWrap='wrap'
+      justifyContent='space-around'
+      className={classes.buttonContainer}
+    >
+      <Box className={classes.button}>
+        <Link
+          id='tweet-quote'
+          color='primary'
+          target='_blank'
+          href={`https://twitter.com/intent/tweet?text=${props.quoteText}`}
+          className={classes.buttonIcon}
+        >
+          <Icon className={clsx(classes.buttonIcon, 'fab fa-twitter')} />
+        </Link>
+      </Box>
+      <Box className={classes.button}>
+        <Button
+          id='new-quote'
+          variant='contained'
+          color='primary'
+          className={classes.buttonBtn}
+          onClick={props.handleRandomIndex}
+        >
+          New Quote
+        </Button>
+      </Box>
     </Box>
   );
 };
@@ -172,7 +193,7 @@ const RandomQuoteMachine = () => {
   const quote = quotes[index];
 
   return (
-    <Container id='quote-box' className={classes.root}>
+    <Container maxWidth='sm' id='quote-box' className={classes.root}>
       {loading && <CircularProgress />}
       {error && <Typography color='error'>{error.message}</Typography>}
       {!loading && !error && <Quote quote={quote} />}
