@@ -62,6 +62,7 @@ const useStyles = makeStyles(theme => ({
   },
   quote: {
     fontSize: 'inherit',
+    fontStyle: 'italic',
     textAlign: 'Justify'
   },
   author: {
@@ -84,6 +85,10 @@ const useStyles = makeStyles(theme => ({
   buttonIcon: {
     fontSize: '2.2rem'
   }
+  // footer: {
+  //   textAlign: 'center',
+  //   color: 'white'
+  // }
 }));
 
 /***************************************
@@ -156,9 +161,20 @@ const Buttons = props => {
           className={classes.buttonBtn}
           onClick={props.handleRandomIndex}
         >
-          New Quote
+          Quote
         </Button>
       </Box>
+    </Box>
+  );
+};
+
+// Footer
+const Footer = () => {
+  const classes = useStyles();
+
+  return (
+    <Box textAlign='center' color='white' margin={2}>
+      <Typography>&copy; 2019 picklu</Typography>
     </Box>
   );
 };
@@ -193,17 +209,19 @@ const RandomQuoteMachine = () => {
   const quote = quotes[index];
 
   return (
-    <Container maxWidth='sm' id='quote-box' className={classes.root}>
-      {loading && <CircularProgress />}
-      {error && <Typography color='error'>{error.message}</Typography>}
-      {!loading && !error && <Quote quote={quote} />}
-      {!loading && !error && (
-        <Buttons
-          quoteText={quote.quote}
-          handleRandomIndex={handleRandomIndex}
-        />
-      )}
-    </Container>
+    <React.Fragment>
+      <Container maxWidth='sm' id='quote-box' className={classes.root}>
+        {loading && <CircularProgress />}
+        {error && <Typography color='error'>{error.message}</Typography>}
+        {!loading && !error && <Quote quote={quote} />}
+        {!loading && !error && (
+          <Buttons
+            quoteText={quote.quote}
+            handleRandomIndex={handleRandomIndex}
+          />
+        )}
+      </Container>
+    </React.Fragment>
   );
 };
 
@@ -213,6 +231,7 @@ const App = () => {
     <MuiThemeProvider theme={theme}>
       <CssBaseline />
       <RandomQuoteMachine />
+      <Footer />
     </MuiThemeProvider>
   );
 };
